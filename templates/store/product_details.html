@@ -24,15 +24,21 @@
                             <div class="col-6">
                                 <label for="select">Qty</label>
                                 <select id="select">
-                                    <option value="">1</option>
-                                    <option value="">2</option>
-                                    <option value="">3</option>
-                                    <option value="">4</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
                                 </select>
 
                             </div>
                             <div class="col-6 text-end">
-                            	<button type="button" class="btn btn-secondary btn-sm">Add to cart</button>
+                            	<button type="button" 
+                                        class="btn btn-secondary btn-sm"
+                                        id="add-to-cart"
+                                        value="{{ product.id }}"
+                                >
+                                    Add to cart
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -40,4 +46,34 @@
             </div>
         </div>
 	</div>
+
+    <script type="text/javascript">
+        const select = document.querySelector('#select')
+        const addToCartBtn = document.querySelector('#add-to-cart')
+        addToCartBtn.addEventListener('click', e => {
+            e.preventDefault()
+            const data = {
+                productId: addToCartBtn.value,
+                qty: parseInt(select.selectedOptions[0].value)
+            }
+            fetch('{% url "cart:update_cart" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (!data.success) {
+                    throw new Error(data.message)
+                }
+                const cartQty = document.querySelector('#cart-qty')
+                cartQty.innerHTML = data.data.qty
+            })
+            .catch(error => console.log(error))
+        })
+    </script>
 {% endblock %}

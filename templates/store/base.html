@@ -38,6 +38,12 @@
                   Categories
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a class="dropdown-item" href="{% url 'store:category_list' slug='all' %}"
+                      >
+                        All
+                      </a>
+                  </li>
                   {% for category in categories %}
                     <li>
                       <a class="dropdown-item" href="{% url 'store:category_list' slug=category.category_slug %}"
@@ -51,7 +57,10 @@
             </ul>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a href="#" class="nav-link">Cart</a>
+                <a href="{% url 'cart:cart_summary' %}" class="btn btn-outline-secondary" role="button">
+                  <span id="cart-qty">{{ cart|length }}</span>
+                  Cart
+                </a>
               </li>
               {% if user.is_authenticated %}
                 <li class="nav-item dropdown">

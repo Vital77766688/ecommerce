@@ -9,8 +9,13 @@ def home(request):
 
 
 def category_list(request, slug):
-	category = get_object_or_404(Category, category_slug=slug)
-	products = Product.objects.filter(category=category)
+	if slug == 'all':
+		category = Category(category_name='All', category_slug='all')
+		products = Product.objects.all()
+	else:
+		category = get_object_or_404(Category, category_slug=slug)
+		products = Product.objects.filter(category=category)
+
 	context = {
 		'category': category,
 		'products': products
