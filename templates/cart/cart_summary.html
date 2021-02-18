@@ -27,7 +27,7 @@
             <div class="row p-3">
               <div class="col-12">
                 <label for="select">Qty</label>
-                <select id="select" class="selectQty">
+                <select class="selectQty" data-index="{{ product.id }}">
                   <option value="1" {% if item.qty == 1 %}selected{% endif %}>1</option>
                   <option value="2" {% if item.qty == 2 %}selected{% endif %}>2</option>
                   <option value="3" {% if item.qty == 3 %}selected{% endif %}>3</option>
@@ -59,9 +59,8 @@
   </div>
 
   <script type="text/javascript">
-	const select = document.querySelector('#select')
-	const cartQty = document.querySelector('#cart-qty')
-	const totalPrice = document.querySelector('#subtotal')
+  	const cartQty = document.querySelector('#cart-qty')
+  	const totalPrice = document.querySelector('#subtotal')
   	const deleteBtns = document.querySelectorAll('.delete-button')
   	const updateBtns = document.querySelectorAll('.update-button')
 
@@ -91,6 +90,7 @@
 
   	updateBtns.forEach(btn => {
   		btn.addEventListener('click', e => {
+        const select = document.querySelector('.selectQty[data-index="' + btn.value + '"]')
   			data = {
   				id: btn.value,
   				qty: parseInt(select.selectedOptions[0].value)

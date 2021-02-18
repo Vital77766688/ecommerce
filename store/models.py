@@ -19,7 +19,7 @@ class Product(models.Model):
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='product')
 	product_name = models.CharField(max_length=255, verbose_name=_('Name'))
 	product_slug = models.SlugField(max_length=255, unique=True)
-	price = models.DecimalField(max_digits=8, decimal_places=6)
+	price = models.DecimalField(max_digits=10, decimal_places=2)
 	image = models.ImageField(upload_to='images/products/', default='images/product_default.jpeg')
 	description = models.TextField(blank=True, null=True)
 	is_active = models.BooleanField(default=True)
