@@ -71,7 +71,7 @@ class TestCartView(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertEqual(response.json(), {'success': True, 
 										   'message': 'Product updated', 
-										   'data': {'qty': 4, 'total_price': '63.960000'}})
+										   'data': {'qty': 4, 'total_price': '63.96'}})
 		response = self.client.patch(self.url, {
 			'id': self.product3.id
 		}, content_type='application/json')
