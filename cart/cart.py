@@ -40,10 +40,11 @@ class Cart:
 		self.save()
 
 	def update(self, id, qty):
-		if id in self.cart:
+		if str(id) in self.cart:
 			self.cart[str(id)]['qty'] = qty
 		self.save()
 
+	@property
 	def total_price(self):
 		return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
 

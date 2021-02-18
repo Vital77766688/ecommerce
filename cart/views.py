@@ -28,10 +28,10 @@ def update_cart(request):
 	elif request.method == 'DELETE':
 		id = json.loads(request.body.decode()).get('id')
 		if not id:
-			return JsonResponse({'success': False, 'message': 'Bad request'})
+			return JsonResponse({'success': False, 'message': 'Bad request'}, status=400)
 		cart.delete(id)
 		return JsonResponse({'success': True, 'message': 'Product deleted', 
-							 'data': {'qty': len(cart), 'total_price': cart.total_price()}},
+							 'data': {'qty': len(cart), 'total_price': cart.total_price}},
 							status=200)
 
 	elif request.method == 'PATCH':
@@ -42,7 +42,7 @@ def update_cart(request):
 			return JsonResponse({'success': False, 'message': 'Bad request'}, status=400)
 		cart.update(id, qty)
 		return JsonResponse({'success': True, 'message': 'Product updated', 
-							 'data': {'qty': len(cart), 'total_price': cart.total_price()}},
+							 'data': {'qty': len(cart), 'total_price': cart.total_price}},
 							status=200)		
 	else:
 		return JsonResponse({'success': False, 'message': 'Method not allowed'}, status=405)
