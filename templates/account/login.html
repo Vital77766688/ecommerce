@@ -1,21 +1,50 @@
 {% extends "../store/base.html" %}
+{% load static %}
 
 {% load i18n %}
 
-{% block title %}{% trans "Sign In" %}{% endblock %}
+{% block title %}: {% trans "Sign In" %}{% endblock %}
 
 {% block main %}
 
-<h1>{% trans "Sign In" %}</h1>
+<div class="container form-container">
+	<h1 class="form-title">{% trans "Sign In" %}</h1>
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
+	<form class="form" method="POST" action="{% url 'account_login' %}">
+	  {% if form.non_field_errors %}
+	  	<ul class="form-errors">
+		  	{% for error in form.non_field_errors %}
+		  		<li class="form-error">{{ error }}</li>
+		  	{% endfor %}
+		</ul>
+	  {% endif %}
+	  {% csrf_token %}
+	  <div class="input-group">
+	  	  <div class="input-group__input">
+			  <input type="email" name="login" placeholder="Email" autocomplete="email" required="" />
+		  </div>
+	  </div>
+	  <div class="input-group">
+	  	  <div class="input-group__input">
+			  <input type="password" name="password" placeholder="Password" autocomplete="current-password" required="" />
+		  </div>
+	  </div>
+	  <div class="input-group">
+	  	  <div class="input-group__input">
+			  <label for="id_remember">Remember Me</label>
+			  <input id="id_remember" type="checkbox" name="remember" />
+		  </div>
+	  </div>
+	  {% if redirect_field_value %}
+	  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+	  {% endif %}
+	  <button class="primary-action" type="submit">{% trans "Sign In" %}</button>
+	  <a class="secondary-action" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+	</form>
+	<div class="break-line"></div>
+	<p class="secondary-action">
+		{% blocktrans %}Don't have an account? Then <a href="{{ signup_url }}">create one</a>.{% endblocktrans %}
+	</p>
+</div>
 
 {% endblock %}

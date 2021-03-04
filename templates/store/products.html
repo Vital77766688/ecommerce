@@ -1,0 +1,28 @@
+<div class="product-cards">
+	{% for product in products %}
+	<div class="product-card">
+		<div class="product-card__item">
+			<div class="product-card__image">
+				<a href="{% url 'store:product_details' slug=product.product_slug %}">
+					<img src="{{ product.image.url }}" alt="{{ product.product_name }}" />
+				</a>
+			</div>
+			<h2 class="product-card__title">
+				<a href="{% url 'store:product_details' slug=product.product_slug %}">
+					{{ product.product_name }}	
+				</a>
+			</h2>
+			<p class="product-card__short-desc">{{ product.description|slice:":120" }}</p>
+			<div class="product-card__buy">
+				<p class="product-card__price price">
+					<span class="price-currency">$</span>
+					<span class="price-value">{{ product.price }}</span>
+				</p>
+				<button class="add-to-cart" value="{{ product.id }}">Add to cart</button>
+			</div>
+		</div>
+	</div>
+	{% empty %}
+	<p class="no-products-found">No products found</p>
+	{% endfor %}
+</div>

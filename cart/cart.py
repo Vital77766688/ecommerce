@@ -24,24 +24,18 @@ class Cart:
 			cart[str(product.id)]['product'] = product
 
 		for item in cart.values():
-			item['total_price'] = item['product'].price * item['qty']
 			yield item
 
 	def add(self, product, qty):
-		product_id = str(product.id)
-		if product_id in self.cart:
-			self.cart[product_id]['qty'] = qty
+		id = str(product.id)
+		if id in self.cart:
+			self.cart[id]['qty'] = qty
 		else:
-			self.cart[product_id] = {'price': str(product.price), 'qty': qty}
+			self.cart[id] = {'price': str(product.price), 'qty': qty}
 		self.save()
 
 	def delete(self, id):
 		del self.cart[str(id)]
-		self.save()
-
-	def update(self, id, qty):
-		if str(id) in self.cart:
-			self.cart[str(id)]['qty'] = qty
 		self.save()
 
 	@property

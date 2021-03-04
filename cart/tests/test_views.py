@@ -24,7 +24,7 @@ class TestCartView(TestCase):
 											  price=15.99)
 
 		self.client.post(self.url, {
-					'productId': self.product3.id,
+					'id': self.product3.id,
 					'qty': 1
 				}, content_type='application/json')
 
@@ -38,54 +38,58 @@ class TestCartView(TestCase):
 
 	def test_add_to_cart(self):
 		response = self.client.post(self.url, {
-			'productId': self.product1.id,
+			'id': self.product1.id,
 			'qty': 1
 		}, content_type='application/json')
 		self.assertEqual(response.status_code, 201)
-		self.assertEqual(response.json(), {'success': True, 'message': 'Product added', 'data': {'qty': 2}})
+		self.assertEqual(response.json(), {'success': True, 'message': 'Product added', 'data': {'cart_qty': 2}})
 
 		response = self.client.post(self.url, {
-			'productId': self.product2.id,
+			'id': self.product2.id,
 			'qty': 4
 		}, content_type='application/json') 
 		self.assertEqual(response.status_code, 201)
-		self.assertEqual(response.json(), {'success': True, 'message': 'Product added', 'data': {'qty': 6}})
+		self.assertEqual(response.json(), {'success': True, 'message': 'Product added', 'data': {'cart_qty': 6}})
 
 		response = self.client.post(self.url, {
-			'productId': self.product3.id,
+			'id': self.product3.id,
 			'qty': 2
 		}, content_type='application/json')
 		self.assertEqual(response.status_code, 201)
-		self.assertEqual(response.json(), {'success': True, 'message': 'Product added', 'data': {'qty': 7}})
+		self.assertEqual(response.json(), {'success': True, 'message': 'Product added', 'data': {'cart_qty': 7}})
 
 		response = self.client.post(self.url, 
-							   		{'productId': self.product1.id}, 
+							   		{'id': self.product1.id}, 
 							   		content_type='application/json')
 		self.assertEqual(response.status_code, 400)
 
 	def test_update_cart(self):
-		response = self.client.patch(self.url, {
+		response = self.client.post(self.url, {
 			'id': self.product3.id,
 			'qty': 4
 		}, content_type='application/json')
-		self.assertEqual(response.status_code, 200)
+		self.assertEqual(response.status_code, 201)
 		self.assertEqual(response.json(), {'success': True, 
-										   'message': 'Product updated', 
-										   'data': {'qty': 4, 'total_price': '63.96'}})
-		response = self.client.patch(self.url, {
+										   'message': 'Product added', 
+										   'data': {'cart_qty': 4}})
+		response = self.client.post(self.url, {
 			'id': self.product3.id
 		}, content_type='application/json')
 		self.assertEqual(response.status_code, 400)
 
 	def test_delete_from_cart(self):
 		response = self.client.delete(self.url, {'id': self.product3.id}, content_type='application/json')
-		self.assertEqual(response.status_code, 200)
-		self.assertEqual(response.json(), {'success': True, 
-										   'message': 'Product deleted', 
-										   'data': {'qty': 0, 'total_price': 0}})
+		self.assertEqual(response.status_code, 204)
 		response = self.client.delete(self.url, {}, content_type='application/json')
 		self.assertEqual(response.status_code, 400)
 
 	def test_not_allowed_method(self):
 		response = self.client.get(self.url)
 		self.assertEqual(response.status_code, 405)
+
+	def test_qty_wrong_type(self):
+		response = self.client.post(self.url, {
+			'id': self.product3.id,
+			'qty': '2ee'
+		}, content_type='application/json')
+		self.assertEqual(response.status_code, 400)

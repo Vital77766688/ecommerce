@@ -4,76 +4,30 @@
 {% block title %}: {{ product.product_name }}{% endblock %}
 
 {% block main %}
-	<div class="container">
-		<div class="row g-3">
-            <div class="col-md-5 col-lg-5 order-md-first bg-light">
-                <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ product.image.url }}">
+	
+    <div class="container">
+        <div class="product-details">
+            <div class="product-details__image">
+                <img src="{{ product.image.url }}" alt="{{ product.product_name }}">
             </div>
-            <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
-                <h1 class="mb-0 h4">{{ product.product_name }}</h1>
-                <p>{{ product.description|slice:":355" }}...</p>
-                <div class="border">
-                    <div class="col border-bottom">
-                        <div class="row p-3">
-                            <div class="col-6">Hardback</div>
-                            <div class="col-6 text-end"><span class="h4 fw-bold">£{{ product.price }}</span></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="row p-3">
-                            <div class="col-6">
-                                <label for="select">Qty</label>
-                                <select id="select">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-
-                            </div>
-                            <div class="col-6 text-end">
-                            	<button type="button" 
-                                        class="btn btn-secondary btn-sm"
-                                        id="add-to-cart"
-                                        value="{{ product.id }}"
-                                >
-                                    Add to cart
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="product-details__left">
+                <h1 class="product-details__title">{{ product.product_name }}</h1>
+                <p class="product-details__description">{{ product.description }}</p>
+                <div class="product-details__buy">
+                    <p class="product-details__price price flex">
+                        <span class="price-currency">$</span>
+                        <span class="price-value">{{ product.price }}</span>
+                    </p>
+                    <input class="qty" type="number" value=1 />
+                    <p class="product-details__price price total-price">
+                        <small>Total:</small>
+                        <span class="price-currency">$</span>
+                        <span class="price-value">0.0</span>
+                    </p>
+                    <button class="add-to-cart" value="{{ product.id }}">Add to cart</button>
+                </div> 
             </div>
         </div>
-	</div>
+    </div>
 
-    <script type="text/javascript">
-        const select = document.querySelector('#select')
-        const addToCartBtn = document.querySelector('#add-to-cart')
-        addToCartBtn.addEventListener('click', e => {
-            e.preventDefault()
-            const data = {
-                productId: addToCartBtn.value,
-                qty: parseInt(select.selectedOptions[0].value)
-            }
-            fetch('{% url "cart:update_cart" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                if (!data.success) {
-                    throw new Error(data.message)
-                }
-                const cartQty = document.querySelector('#cart-qty')
-                cartQty.innerHTML = data.data.qty
-            })
-            .catch(error => console.log(error))
-        })
-    </script>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends "../store/base.html" %}
+{% load static %}
+
+{% load i18n %}
+{% load account %}
+
+{% block title %}: {% trans "Account Inactive" %}{% endblock %}
+
+{% block main %}
+
+<div class="container form-container">
+    <h1 class="form-title">{% trans "Account Inactive" %}</h1>
+    <p>{% trans "This account is inactive." %}</p>
+</div>
+
+{% endblock %}

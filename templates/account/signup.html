@@ -2,20 +2,66 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Signup" %}{% endblock %}
+{% block title %}: {% trans "Signup" %}{% endblock %}
 
 {% block main %}
-<h1>{% trans "Sign Up" %}</h1>
+<div class="container form-container">
+	<h1 class="form-title">{% trans "Sign Up" %}</h1>
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+	<p class="secondary-action">
+		{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+	</p>
+	
+	<form class="form" method="POST" action="{% url 'account_signup' %}">
+	  {% if form.non_field_errors %}
+	  	<ul class="form-errors">
+		  	{% for error in form.non_field_errors %}
+		  		<li class="form-error">{{ error }}</li>
+		  	{% endfor %}
+		</ul>
+	  {% endif %}
+	  {% csrf_token %}
+	  <div class="input-group">
+	  	  <div class="input-group__input">
+			  <input type="email" name="email" placeholder="Email" autocomplete="email" required="" />
+		  </div>
+		  {% if form.errors.email %}
+		  	<ul class="form-errors">
+			  	{% for error in form.errors.email %}
+			  		<li class="form-error">{{ error }}</li>
+			  	{% endfor %}
+			</ul>
+		  {% endif %}
+	  </div>
+	  <div class="input-group">
+	  	  <div class="input-group__input">
+		  	<input type="password" name="password1" placeholder="Password" autocomplete="new-password" required="" />
+		  </div>
+		  {% if form.errors.password1 %}
+		  	<ul class="form-errors">
+			  	{% for error in form.errors.password1 %}
+			  		<li class="form-error">{{ error }}</li>
+			  	{% endfor %}
+			</ul>
+		  {% endif %}
+	  </div>
+	  	 <div class="input-group">
+	  	  <div class="input-group__input">
+			  <input type="password" name="password2" placeholder="Password (again)" required="" />
+		  </div>
+		  {% if form.errors.password2 %}
+		  	<ul class="form-errors">
+			  	{% for error in form.errors.password2 %}
+			  		<li class="form-error">{{ error }}</li>
+			  	{% endfor %}
+			</ul>
+		  {% endif %}
+	  </div>
+	  {% if redirect_field_value %}
+	  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+	  {% endif %}
+	  <button class="primary-action" type="submit">{% trans "Sign Up" %}</button>
+	</form>
+</div>
 
 {% endblock %}
