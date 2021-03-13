@@ -27,7 +27,6 @@ def update_cart(request):
 		except ValueError:
 			return JsonResponse({'success': False, 'message': 'Bad request'}, status=400)
 		cart.add(product, qty)
-		print(len(cart))
 		return JsonResponse({'success': True, 
 							 'message': 'Product added', 
 							 'data': {'cart_qty': len(cart)}

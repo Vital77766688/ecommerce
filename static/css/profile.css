@@ -1,0 +1,26 @@
+.profile-container {
+	display: flex;
+}
+
+.input-group.image {
+	display: flex;
+	flex-direction: column;
+}
+
+.input-group.image img {
+	height: 150px;
+	width: 150px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.address {
+	display: flex;
+	align-items: center;
+	margin: 0 0 10px;
+}
+
+.address-control {
+	margin: 0 0 0 15px;
+}
+

@@ -23,15 +23,21 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'phonenumber_field',
+    'django_countries',
     
-    'store',
-    'cart',
-    'users',
+    'tags_and_filters',
+
+    'store.apps.StoreConfig',
+    'cart.apps.CartConfig',
+    'users.apps.UsersConfig',
+    'orders.apps.OrdersConfig',
 ]
 
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreplay@mystore.com'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
@@ -46,6 +52,8 @@ ACCOUNT_EMAIL_CONFIRMATION_HMAC = False
 
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGOUT_ON_GET = True
+
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -92,18 +100,18 @@ DATABASES = {
 
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -132,3 +140,12 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+COUNTRIES_ONLY = (
+    'KZ', 'RU', 'BY', 'KG', 'AM'
+)
+
+COUNTRIES_FIRST = (
+    'KZ', 'RU'
+)

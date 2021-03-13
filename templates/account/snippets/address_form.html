@@ -1,0 +1,122 @@
+{% load countries %}
+<form class="form" id="address-form" method="POST" name="address_form">
+	{% if address_form.non_field_errors %}
+		<ul class="form-errors">
+			{% for error in address_form.non_field_errors %}
+				<li class="form-error">{{ error }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	{% csrf_token %}
+	<div class="input-group">
+		<label for="country">Country:</label>
+		<select name="country" id="country">
+			{% get_countries as countries %}
+			{% for country in countries %}
+				<option value="{{ country.code }}">
+					{{ country.name }}
+				</option>
+			{% endfor %}
+		</select>
+		{% if address_form.errors.country %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.country %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+	<div class="input-group">
+		<label for="region">Region:</label>
+		<input type="text" name="region" id="region" placeholder="Region" />	
+		{% if address_form.errors.region %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.region %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+	<div class="input-group">
+		<label for="city">City:</label>
+		<input type="text" name="city" id="city" placeholder="City" />
+		{% if address_form.errors.city %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.city %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+	<div class="input-group">
+		<label for="street">Street:</label>
+		<input type="text" name="street" id="street" placeholder="Street" />
+		{% if address_form.errors.street %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.street %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+	<div class="input-group">
+		<label for="building">Building:</label>
+		<input type="text" name="building_number" id="building" placeholder="# of building" />
+		{% if address_form.errors.building_number %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.building_number %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+	<div class="input-group">
+		<label for="block">Block:</label>
+		<input type="text" name="block" id="block" placeholder="Block" />
+		{% if address_form.errors.block %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.block %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+	<div class="input-group">
+		<label for="is-private-house">Is private house?</label>
+		<input type="checkbox" name="is_private_house" id="is-private-house"/>
+	</div>
+	<div class="input-group">
+		<label for="entrance">Entrance:</label>
+		<input type="text" name="entrance" id="entrance" placeholder="# of entrance" />
+		{% if address_form.errors.entrance %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.entrance %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+	<div class="input-group">
+		<label for="appartment">Appartment:</label>
+		<input type="text" name="appartment" id="appartment" placeholder="# of appartment" />
+		{% if address_form.errors.appaetment %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.appaetment %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}	
+	</div>
+	<div class="input-group">
+		<label for="zip-code">ZIP Code:</label>
+		<input type="text" name="zip_code" id="zip-code" placeholder="ZIP Code" />
+		{% if address_form.errors.zip_code %}
+			<ul class="form-errors">
+				{% for error in address_form.errors.zip_code %}
+					<li class="form-error">{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}	
+	</div>
+	<button type="submit" name="new_address">Add</button>
+</form>

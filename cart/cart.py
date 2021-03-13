@@ -38,6 +38,9 @@ class Cart:
 		del self.cart[str(id)]
 		self.save()
 
+	def clean(self):
+		del self.session['skey']
+
 	@property
 	def total_price(self):
 		return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())

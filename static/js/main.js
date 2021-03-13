@@ -1,7 +1,5 @@
 const cart = document.querySelector('.cart-qty')
 const productCards = document.querySelectorAll('.product-card')
-const productDetails = document.querySelector('.product-details')
-const cartItems = document.querySelectorAll('.cart-item')
 const subtotalPrice = document.querySelector('.subtotal-price')
 const toastContainer = document.querySelector('.toast-container')
 const toasts = document.querySelectorAll('.toast')
@@ -47,16 +45,6 @@ const updateTotalPrice = (parent, qty) => {
 }
 
 
-const resetSubtotalPrice = () => {
-	const priceValue = subtotalPrice.querySelector('.price-value')
-	let stPrice = 0
-	document.querySelectorAll('.total-price').forEach(tp => {
-		stPrice += parseFloat(tp.querySelector('.price-value').innerText)
-	})
-	priceValue.innerHTML = stPrice.toFixed(2)
-}
-
-
 const createToast = message => {
 	const toast = document.createElement('p')
 	toast.className = 'toast'
@@ -80,72 +68,6 @@ productCards.forEach(card => {
 	addToCartBtn.addEventListener('click', e => {
 		addUpdateCart(e.target.value, '1')
 	})
-})
-
-
-if (productDetails) {
-	
-	const productQty = productDetails.querySelector('.qty')
-	
-	updateTotalPrice(productDetails, productQty.value)
-	
-	const addToCartBtn = productDetails.querySelector('.add-to-cart')
-	addToCartBtn.addEventListener('click', e => {
-		addUpdateCart(e.target.value, productQty.value)
-	})
-	
-	productQty.addEventListener('keyup', e => {
-		updateTotalPrice(productDetails, e.target.value)
-	})
-	productQty.addEventListener('change', e => {
-		updateTotalPrice(productDetails, e.target.value)
-	})
-}
-
-
-cartItems.forEach(item => {
-
-	const productQty = item.querySelector('.qty')
-
-	updateTotalPrice(item, productQty.value)
-	
-	const deleteFromCartBtn = item.querySelector('.delete-from-cart')
-	deleteFromCartBtn.addEventListener('click', e => {
-		deleteFromCart(e.target.value)
-		.then(() => {
-			let cartQty = parseInt(cart.innerText) - parseInt(productQty.value)
-			cart.innerHTML = cartQty
-			if (cartQty === 0) {
-				document.querySelector('.cart').innerHTML = '<p class="no-products-found">No products found</p>'
-				document.querySelector('.summary').remove()
-			} else {
-				item.remove()
-				resetSubtotalPrice()
-			}
-		})
-	})
-
-	const updateCartBtn = item.querySelector('.update-cart')
-	updateCartBtn.addEventListener('click', e => {
-		addUpdateCart(e.target.value, productQty.value)
-		.then(() => {
-			e.target.disabled = true
-			updateTotalPrice(item, productQty.value)
-			resetSubtotalPrice()
-		})
-	})
-
-	productQty.addEventListener('keyup', e => {
-		if (updateCartBtn.disabled) {
-			updateCartBtn.disabled = false
-		}
-	})
-	productQty.addEventListener('change', e => {
-		if (updateCartBtn.disabled) {
-			updateCartBtn.disabled = false
-		}	
-	})
-
 })
 
 toasts.forEach(toast => {

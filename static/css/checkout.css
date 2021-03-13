@@ -1,0 +1,35 @@
+.input-group.hidden {
+	display: none;
+}
+
+.checkout__table {
+	border: 1px solid #000000;
+	border-collapse: collapse;
+	font-size: 14px;
+}
+
+.checkout__table th {
+	text-align-last: left;
+	width: 150px;
+	padding: 5px;
+	border: 1px solid #000000;
+	border-collapse: collapse;
+}
+
+.checkout__table td {
+	border: 1px solid #000000;
+	border-collapse: collapse;
+	padding: 5px;
+}
+
+.checkout__table .first {
+	width: 250px;
+}
+
+.checkout__table .total {
+	font-weight: 700;
+}
+
+.checkout__edit-profile {
+	font-size: 12px;
+}

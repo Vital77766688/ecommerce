@@ -1,16 +1,16 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User
+from .models import User, UserProfile, UserAddress
 
 
 class UserAdmin(UserAdmin):
 	model = User
-	list_display = ('email', 'is_staff', 'is_email_verified', 'is_active',)
+	list_display = ('email', 'is_staff', 'is_active',)
 	list_filter = ('email', 'is_staff', 'is_active')
 	filter_horizontal = ()
 	fieldsets = (
-		('General Info', {'fields': ('email', 'is_email_verified')}),
+		('General Info', {'fields': ('email',)}),
 		('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser')})
 	)
 	add_fieldsets = (
@@ -23,3 +23,13 @@ class UserAdmin(UserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+	pass
+
+
+@admin.register(UserAddress)
+class UserAddressAdmin(admin.ModelAdmin):
+	pass

@@ -1,0 +1,78 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load math %}
+
+{% block title %}: My orders{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/orders.css' %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/orders.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+	<h1 class="page-title">My orders</h1>
+	<ul class="orders">
+	{% for order in orders %}
+		<li class="order-list-item" id="order-{{ order.id }}">
+			<div class="order">
+				<p class="order__id"><span>Order No.</span> {{ order.id }}</p>
+				<p class="order__product-qty">{{ order.items.count }} <span>items</span></p>
+				<p class="order__date"><span>Created: </span>{{ order.create_date }}</p>
+				<p class="order__price price">
+                        <span class="price-currency">$</span>
+                        <span class="price-value">{{ order.price }}</span>
+                    </p>
+				<p class="order__status">{{ order.status }}</p>
+				<p class="order__date"><span>Updated: </span>{{ order.update_date }}</p>
+				<p class="order__show-details">
+					<span class="arrow order-arrow" data-order-id="order-{{ order.id }}"></span>
+				</p>
+			</div>
+			<div class="order-details">
+				<div class="order-details__address">
+					<p class="order-details__delivery-address">
+						<span>Devliery Address: </span>
+						{{ order.delivery_address }}
+					</p>
+					{% if order.delivery_address != order.billing_address %}
+						<p class="order-details__billing-address">
+							<span>Billing Address: </span>
+							{{ order.billing_address }}
+						</p>
+					{% endif %}
+				</div>
+				{% if order.comment %}
+					<div class="order-details__comment">
+						<p class="order-details__comment-title">Comment</p>
+						<p>{{ order.comment }}</p>
+					</div>
+				{% endif %}
+				<ul class="order-details__items">
+					{% for item in order.items.all %}
+						<li class="order-detail__item">
+							<div class="order-item">
+								<p class="order-item__product-name">{{ item.product.product_name }}</p>
+								<p class="order-item__price price">
+									<span class="price-currency">$</span>
+									<span class="price-value">{{ item.price }}</span>
+								</p>
+								<p class="order-item__qty">x{{ item.qty }}</p>
+								<p class="order-item__price price total-price">
+									<small>Total:</small>
+									<span class="price-currency">$</span>
+									<span class="price-value">{{ item.price|multiply:item.qty }}</span>
+								</p>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>					
+		</li>
+	{% endfor %}
+	</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends "../base.html" %}
+{% load static %}
+{% load math %}
+
+{% block title %}: Checkout{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock%}
+
+{% block js %}
+<script src="{% static 'js/checkout.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+	<h1 class="page-title">Checkout</h1>
+	<div class="checkout">
+		<form method="POST" class="form">
+			{% if order_form.non_field_errors %}
+				<ul class="form-errors">
+					{% for error in order_form.non_field_errors %}
+						<li class="form-error">{{ error }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+			{% csrf_token %}
+			<div class="checkout__customer-info">
+				<h2 class="form-section-title">Customer Info</h2>
+				<table class="checkout__table">
+					<thead>
+						<th>Name</th>
+						<th>Phone Number</th>
+						<th>Email</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="first">{{ user.profile }}</td>
+							<td>{{ user.profile.phone_number }}</td>
+							<td>{{ user.email }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<a href="{% url 'users:profile' %}" class="checkout__edit-profile">Edit profile</a>
+			</div>
+			<div class="checkout__address-info">
+				<h2 class="form-section-title">Address Info</h2>
+				<div class="input-group">
+					<label for="delivery-address">Delivery Address:</label>
+					<select name="delivery_address" id="delivery-address">
+						{% for address in user.profile.addresses.all %}
+							<option value="{{ address.pk }}">{{ address }}</option>
+						{% endfor %}
+					</select>
+					<button type="button" class="inline-btn" id="add-delivery-address">
+						<i class="bi bi-plus"></i>
+					</button>
+					{% if order_form.errors.delivery_address %}
+						<ul class="form-errors">
+							{% for error in order_form.errors.delivery_address %}
+								<li class="form-error">{{ error }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="input-group">
+					<label for="is-billing-same">Is billing address the same as delivery address?</label>
+					<input type="checkbox" id="is-billing-same" name="is_billing_same" checked/>
+				</div>
+				<div class="input-group billing-address hidden">
+					<label for="billing-address">Billing Address:</label>
+					<select name="billing_address" id="billing-address">
+						{% for address in user.profile.addresses.all %}
+							<option value="{{ address.pk }}">{{ address }}</option>
+						{% endfor %}
+					</select>
+					<button type="button" class="inline-btn" id="add-billing-address">
+						<i class="bi bi-plus"></i>
+					</button>
+					{% if order_form.errors.billing_address %}
+						<ul class="form-errors">
+							{% for error in order_form.errors.billing_address %}
+								<li class="form-error">{{ error }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="input-group textarea">
+					<label for="order-comment">Comment to Order:</label>
+					<textarea 
+						name="comment" 
+						id="order-comment" 
+						placeholder="Add a comment"
+					></textarea>
+				</div>
+			</div>
+			<div class="checkout__order-summary">
+				<h2 class="form-section-title">Order Summary</h2>
+				<table class="checkout__table">
+					<thead>
+						<th>Product</th>
+						<th>Price</th>
+						<th>Quantity</th>
+						<th>Total</th>
+					</thead>
+					<tbody>
+						{% for item in cart %}
+						<tr>
+							<td class="first">{{ item.product.product_name }}</td>
+							<td>{{ item.product.price }}</td>
+							<td>{{ item.qty }}</td>
+							<td>{{ item.product.price|multiply:item.qty }}</td>
+						</tr>
+						{% endfor %}
+						<tr class="total">
+							<td class="first" colspan="3">Total</td>
+							<td>{{ cart.total_price }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="checkout__payment">
+				<h2 class="form-section-title">Payment</h2>
+			</div>
+			<button type="submit">Proceed</button>
+		</form>
+	</div>
+</div>
+
+<div class="modal-address">
+	<div class="modal-address-content">
+		<span class="close">&times</span>
+		{% include 'account/snippets/address_form.html' %}
+	</div>
+</div>
+
+<script>
+const addressNonFieldErrors = '{{ address_form.non_field_errors }}'
+const addressFieldErrors = '{{ address_form.errors }}'
+</script>
+
+{% endblock %}

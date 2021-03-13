@@ -1,7 +1,15 @@
-{% extends "./base.html" %}
+{% extends "../base.html" %}
 {% load static %}
 
 {% block title %}: {{ product.product_name }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product_details.css' %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/product_details.js' %}"></script>
+{% endblock %}
 
 {% block main %}
 	

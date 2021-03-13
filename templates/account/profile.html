@@ -1,0 +1,207 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}: Profile{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+	<h1 class="page-title">Profile</h1>
+	<div class="profile">
+		<div class="profile__customer-info">
+			<h2 class="form-section-title">Your Info</h2>
+			<form method="POST" class="form" enctype="multipart/form-data">
+				<div class="profile-container">
+					<div class="profile-left">
+						<div class="input-group image">
+							<img src="{{ user.profile.image.url }}" alt="Profile image">
+							<input type="file" name="image" id="image" accept="image/*"/>
+						</div>
+					</div>
+					<div class="profile-right">
+						{% if order_form.non_field_errors %}
+							<ul class="form-errors">
+								{% for error in order_form.non_field_errors %}
+									<li class="form-error">{{ error }}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+						{% csrf_token %}
+						<div class="input-group">
+							<label for="first-name">First Name:</label>
+							<input type="text" 
+								   name="first_name" 
+								   id="first-name" 
+								   placeholder="First Name"
+								   value="{{ user.profile.first_name }}"
+							/>
+							{% if profile_form.errors.first_name %}
+								<ul class="form-errors">
+									{% for error in profile_form.errors.first_name %}
+										<li class="form-error">{{ error }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</div>
+						<div class="input-group">
+							<label for="last-name">Last Name:</label>
+							<input type="text" 
+								   name="last_name" 
+								   id="last-name" 
+								   placeholder="Last Name"
+								   value="{{ user.profile.last_name }}"
+							/>
+							{% if profile_form.errors.last_name %}
+								<ul class="form-errors">
+									{% for error in profile_form.errors.last_name %}
+										<li class="form-error">{{ error }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</div>
+						<div class="input-group">
+							<label for="phone-number">Phone Number:</label>
+							<input type="text" 
+								   name="phone_number" 
+								   id="phone-number" 
+								   placeholder="Phone Number"
+								   value="{{ user.profile.phone_number }}"
+							/>
+							{% if profile_form.errors.phone_number %}
+								<ul class="form-errors">
+									{% for error in profile_form.errors.phone_number %}
+										<li class="form-error">{{ error }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				<button type="submit" name="profile">Apply</button>
+			</form>
+		</div>
+		<div class="profile__customer-addresses">
+			<h2 class="form-section-title">Your addresses</h2>
+			<ul class="address-list">
+				{% for address in user.profile.addresses.all %}
+					<li class="address-list-item">
+						<div class="address">
+							<p>{{ address }}</p>
+							<div class="address-control">
+								<form method="POST">
+									{% csrf_token %}
+									<input type="hidden" name="id" value="{{ address.id }}">
+									<button type="button" 
+										    id="change-address" 
+										    class="change-address" 
+										    name="change_address"
+										    data-address-id="{{ address.id }}"
+									>
+										Change
+									</button>
+									<button id="delete-address" name="delete_address">
+										Delete
+									</button>
+								</form>
+							</div>
+						</div>
+					</li>
+				{% endfor %}
+				<li class="address-list-item">
+					<button id="add-new-address">Add new</button>
+				</li>
+			</ul>
+		</div>
+		<div class="profile__customer-info">
+			<h2 class="form-section-title">Change password</h2>
+			<form method="POST" class="form">
+				{% if order_form.non_field_errors %}
+					<ul class="form-errors">
+						{% for error in order_form.non_field_errors %}
+							<li class="form-error">{{ error }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+				{% csrf_token %}
+				<div class="input-group">
+					<label for="oldpassword">Current Password:</label>
+					<input type="password" 
+						   name="oldpassword" 
+						   id="oldpassword" 
+						   autocomplete="current-password" 
+						   placeholder="Current Password" 
+					/>
+					{% if change_password_form.errors.oldpassword %}
+						<ul class="form-errors">
+							{% for error in change_password_form.errors.oldpassword %}
+								<li class="form-error">{{ error }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="input-group">
+					<label for="password1">New Password:</label>
+					<input type="password" 
+						   name="password1" 
+						   id="password1"
+						   autocomplete="new-password" 
+						   placeholder="New Password"
+						   required 
+					/>
+					{% if change_password_form.errors.password1 %}
+						<ul class="form-errors">
+							{% for error in change_password_form.errors.password1 %}
+								<li class="form-error">{{ error }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="input-group">
+					<label for="password2">New Password (again):</label>
+					<input type="password" 
+						   name="password2" 
+						   id="password2"
+						   placeholder="New Password (again)" 
+						   required 
+					/>
+					{% if change_password_form.errors.password2 %}
+						<ul class="form-errors">
+							{% for error in change_password_form.errors.password2 %}
+								<li class="form-error">{{ error }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<button type="submit" name="change_password">Change</button>
+			</form>
+		</div>
+		<div class="profile__customer-info">
+			<h2 class="form-section-title">Delete account</h2>
+			<form method="POST" class="form">
+				<button type="submit" name="delete_account">Delete</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal-address">
+	<div class="modal-address-content">
+		<span class="close">&times</span>
+		{% include 'account/snippets/address_form.html' %}
+	</div>
+</div>
+
+<script>
+const addressNonFieldErrors = '{{ address_form.non_field_errors }}'
+const addressFieldErrors = '{{ address_form.errors }}'
+const address_url = '{% url "users:address" %}'
+</script>
+
+{% endblock %}

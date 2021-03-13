@@ -1,7 +1,15 @@
-{% extends "../store/base.html" %}
+{% extends "../base.html" %}
 {% load static %}
 
 {% block title %}: Cart Summary{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock %}
 
 {% block main %}
 	<div class="container">
@@ -51,7 +59,7 @@
           <span class="price-currency">$</span>
           <span class="price-value">{{ cart.total_price }}</span>
         </p>
-        <button class="checkout">Checkout</button>
+        <a href="{% url 'orders:checkout' %}" class="checkout button">Checkout</a>
       </div>
     </div>
     {% endif %}
