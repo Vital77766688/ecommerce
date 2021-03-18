@@ -54,7 +54,7 @@
                 {% if user.is_authenticated %}
                   <li class="menu-item dropdown">
                     {{ user.email }}
-                    <!-- <img src="{{ user.profile.image.url }}" alt="" class="nav-user-image"/> -->
+                    <img src="{{ user.profile.image.url }}" alt="" class="nav-user-image"/>
                     <span class="arrow"></span>
                     <ul class="dropdown-menu">
                       <li class="dropdown-menu-item">
@@ -120,4 +120,3 @@
   {% block js %}{% endblock %}
 
 </html>
-

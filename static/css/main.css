@@ -139,14 +139,29 @@ nav {
 .dropdown-menu {
 	display: none;
 	position: absolute;
+	top: 30px;
+	left: 0;
 	background-color: #eeeeee;
 	padding: 20px 0 0 0;
 	min-width: 150px;
+	width: 100%;
 }
 
 .dropdown {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	cursor: pointer;
 	position: relative;
+	height: 100%;
+}
+
+.nav-user-image {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	margin: 0 5px;
+	object-fit: cover;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -166,7 +181,7 @@ nav {
 .arrow {
 	display: block;
 	position: absolute;
-	top: 4px;
+	top: 12px;
 	right: -15px;
 	height: 100%;
 	width: 8px;
@@ -177,12 +192,19 @@ nav {
 
 .dropdown:hover .arrow {
 	transform: rotate(180deg);
-	top: -4px;
+	top: -12px;
 }
 
 main {
 	flex: 1 1 auto;
 	margin: 50px;
+}
+
+.no-products-found {
+	font-size: 18px;
+	font-weight: 700;
+	padding: 0 10px;
+	margin: 0 0 5px 0;
 }
 
 .price {

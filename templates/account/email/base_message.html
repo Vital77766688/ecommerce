@@ -1,0 +1,48 @@
+{% load i18n %}
+{% autoescape off %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" style="margin: 0;padding: 0;border: 0;font-size: 18px;">
+<head style="margin: 0;padding: 0;border: 0;">
+	<meta http-equiv="Content-Type" content="text/html charset=utf-8" style="margin: 0;padding: 0;border: 0;">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" style="margin: 0;padding: 0;border: 0;">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" style="margin: 0;padding: 0;border: 0;">
+	<title style="margin: 0;padding: 0;border: 0;">MyStore{% block title %}{% endblock %}</title>
+
+</head>
+<body style="margin: 0;padding: 0;border: 0;font-size: 18px;">
+
+	<table class="wrapper" style="margin: 0 auto;padding: 0;border: 0;max-width: 800px;">
+		<tr style="margin: 0;padding: 0;border: 0;">
+			<td style="margin: 0;padding: 0;border: 0;">
+				<table class="header" style="margin: 0;padding: 0;border: 0;width: 100%;">
+					<tr style="margin: 0;padding: 0;border: 0;">
+						<td style="margin: 0;padding: 20px 0;border: 0;background-color: #f8f8f8;text-align: center;">
+							<a class="logo" href="{% url 'store:home' %}" target="_blank" style="margin: 0;padding: 0;border: 0;color: #000000;font-size: 36px;font-weight: 700;text-decoration: none;">MyStore</a>
+						</td>
+					</tr>
+				</table>
+				<table class="content" style="margin: 0;padding: 0;border: 0;">
+					<tr style="margin: 0;padding: 0;border: 0;">
+						<td style="margin: 0;padding: 0;border: 0;">
+							{% block content %}{% endblock %}
+						</td>
+					</tr>
+				</table>
+				{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+				<table class="footer" style="margin: 0;padding: 0;border: 0;width: 100%;">
+					<tr style="margin: 0;padding: 0;border: 0;">
+						<td style="margin: 0;padding: 20px 0;border: 0;background-color: #f8f8f8;text-align: center;">
+							<p style="margin: 0 0 10px;padding: 0;border: 0;">Thank you for using <a href="http://{{ site_domain }}" target="_blank" style="margin: 0;padding: 0;border: 0;color: #000000;">MyStore</a>!</p>
+							<p style="margin: 0 0 10px;padding: 0;border: 0;"><a href="http://{{ site_domain }}" target="_blank" style="margin: 0;padding: 0;border: 0;color: #000000;">{{ site_domain }}</a></p>				
+						</td>
+					</tr>
+				</table>
+				{% endblocktrans %}
+			</td>
+		</tr>
+	</table>
+
+</body>
+</html>
+{% endautoescape %}
