@@ -1,5 +1,14 @@
+from datetime import datetime
+
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+
+from PIL import Image
+
+
+def image_path(instance, filename):
+	ext = filename.split('.')[-1]
+	return f"images/products/{instance.id}_{datetime.now().strftime('%Y%m%s%H%M%S')}.{ext}"
 
 
 class Category(models.Model):
@@ -20,7 +29,7 @@ class Product(models.Model):
 	product_name = models.CharField(max_length=50, verbose_name=_('Name'))
 	product_slug = models.SlugField(max_length=50, unique=True)
 	price = models.DecimalField(max_digits=10, decimal_places=2)
-	image = models.ImageField(upload_to='images/products/', default='images/product_default.jpeg')
+	image = models.ImageField(upload_to=image_path, default='images/product_default.jpeg')
 	description = models.TextField(blank=True, null=True)
 	is_active = models.BooleanField(default=True)
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -33,3 +42,13 @@ class Product(models.Model):
 		verbose_name_plural = 'Products'
 		db_table = 'products'
 		ordering = ('-created_at',)
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs)
+
+		img = Image.open(self.image.path)
+
+		if img.height > 300 or img.width > 300:
+			output_size = (300, 300)
+			img.thumbnail(output_size)
+			img.save(self.image.path)

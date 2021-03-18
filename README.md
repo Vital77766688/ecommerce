@@ -14,9 +14,11 @@ Website is session based.
 
 ## TODO
 
-### Custom email templates
-### Reduce image sizes
-### Override save methods in models with images
+### Custom email templates (Done)
+### Reduce image sizes (Done)
+
+Override save methods in models with images (Done)
+
 ### Historical tables (orders for starters)
 ### DRF for API
 ### Subcategories

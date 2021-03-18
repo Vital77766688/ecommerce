@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -5,6 +7,13 @@ from django.db import models
 
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
+
+from PIL import Image
+
+
+def image_path(instance, filename):
+	ext = filename.split('.')[-1]
+	return f"images/users/{instance.id}_{datetime.now().strftime('%Y%m%s%H%M%S')}.{ext}"
 
 
 class UserManager(BaseUserManager):
@@ -53,7 +62,7 @@ class UserProfile(models.Model):
 	first_name = models.CharField(_('First Name'), max_length=80)
 	last_name = models.CharField(_('Last Name'), max_length=80)
 	phone_number = PhoneNumberField(_('Phone Number'))
-	image = models.ImageField(_('User Image'), upload_to='images/users/', default='images/user_default.jpeg')
+	image = models.ImageField(_('User Image'), upload_to=image_path, default='images/user_default.jpeg')
 
 	def __str__(self):
 		return f"{self.first_name} {self.last_name}"
@@ -62,6 +71,16 @@ class UserProfile(models.Model):
 		verbose_name = _('User Profile')
 		verbose_name_plural = _('User Profiles')
 		db_table = 'user_profile'
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs)
+
+		img = Image.open(self.image.path)
+
+		if img.height > 300 or img.width > 300:
+			output_size = (300, 300)
+			img.thumbnail(output_size)
+			img.save(self.image.path)
 
 
 class UserAddress(models.Model):
