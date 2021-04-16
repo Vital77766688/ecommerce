@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+from django.utils.translation import gettext_lazy as _
+
 from store.models import Product
 
 
@@ -26,12 +28,19 @@ class Cart:
 		for item in cart.values():
 			yield item
 
-	def add(self, product, qty):
-		id = str(product.id)
-		if id in self.cart:
-			self.cart[id]['qty'] = qty
-		else:
-			self.cart[id] = {'price': str(product.price), 'qty': qty}
+	def update(self, id, price, qty):
+		if self.isin(id):
+			self.update_product(id, qty)
+			return _('Product updated')
+		self.add_product(id, price, qty)
+		return _('Product added')
+
+	def add_product(self, id, price, qty):
+		self.cart[id] = {'price': str(price), 'qty': qty}
+		self.save()
+
+	def update_product(self, id, qty):
+		self.cart[id]['qty'] = qty
 		self.save()
 
 	def delete(self, id):
@@ -44,6 +53,9 @@ class Cart:
 	@property
 	def total_price(self):
 		return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+
+	def isin(self, id):
+		return id in self.cart
 
 	def save(self):
 		self.session.modified = True

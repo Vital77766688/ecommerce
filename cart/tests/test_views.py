@@ -6,7 +6,7 @@ from store.models import Category, Product
 
 class TestCartView(TestCase):
 	def setUp(self):
-		self.url = reverse('cart:update_cart')
+		self.url = reverse('cart_api:update_cart')
 		self.client = Client()
 		self.books = Category.objects.create(category_name='Books', category_slug='books')
 		self.cds = Category.objects.create(category_name='CDs', category_slug='cds')
@@ -51,13 +51,6 @@ class TestCartView(TestCase):
 		self.assertEqual(response.status_code, 201)
 		self.assertEqual(response.json(), {'success': True, 'message': 'Product added', 'data': {'cart_qty': 6}})
 
-		response = self.client.post(self.url, {
-			'id': self.product3.id,
-			'qty': 2
-		}, content_type='application/json')
-		self.assertEqual(response.status_code, 201)
-		self.assertEqual(response.json(), {'success': True, 'message': 'Product added', 'data': {'cart_qty': 7}})
-
 		response = self.client.post(self.url, 
 							   		{'id': self.product1.id}, 
 							   		content_type='application/json')
@@ -70,7 +63,7 @@ class TestCartView(TestCase):
 		}, content_type='application/json')
 		self.assertEqual(response.status_code, 201)
 		self.assertEqual(response.json(), {'success': True, 
-										   'message': 'Product added', 
+										   'message': 'Product updated', 
 										   'data': {'cart_qty': 4}})
 		response = self.client.post(self.url, {
 			'id': self.product3.id
@@ -80,8 +73,6 @@ class TestCartView(TestCase):
 	def test_delete_from_cart(self):
 		response = self.client.delete(self.url, {'id': self.product3.id}, content_type='application/json')
 		self.assertEqual(response.status_code, 204)
-		response = self.client.delete(self.url, {}, content_type='application/json')
-		self.assertEqual(response.status_code, 400)
 
 	def test_not_allowed_method(self):
 		response = self.client.get(self.url)
@@ -93,3 +84,10 @@ class TestCartView(TestCase):
 			'qty': '2ee'
 		}, content_type='application/json')
 		self.assertEqual(response.status_code, 400)
+
+	def test_wrong_product(self):
+		response = self.client.post(self.url, {
+			'id': 1222,
+			'qty': 3
+		}, content_type='application/json')
+		self.assertEqual(response.status_code, 404)

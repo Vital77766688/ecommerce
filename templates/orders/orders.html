@@ -20,7 +20,7 @@
 		<li class="order-list-item" id="order-{{ order.id }}">
 			<div class="order">
 				<p class="order__id"><span>Order No.</span> {{ order.id }}</p>
-				<p class="order__product-qty">{{ order.items.count }} <span>items</span></p>
+				<p class="order__product-qty">{{ order.items_count }} <span>items</span></p>
 				<p class="order__date"><span>Created: </span>{{ order.create_date }}</p>
 				<p class="order__price price">
                         <span class="price-currency">$</span>

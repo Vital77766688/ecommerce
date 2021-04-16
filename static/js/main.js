@@ -17,7 +17,7 @@ const addUpdateCart = async (id, qty) => {
 	const data = await response.json()
 	if (data.success) {
 		cart.innerHTML = data.data.cart_qty
-		toastContainer.append(createToast('Product added to cart'))
+		toastContainer.append(createToast(data.message))
 		return
 	}
 } 

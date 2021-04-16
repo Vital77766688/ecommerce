@@ -41,7 +41,7 @@ class TestOrder(TestCase):
 		self.assertEqual(str(self.order), 'a@a.com: 1')
 
 	def test_order_save(self):
-		self.assertEqual(self.order.items.count(), 0)
+		self.assertEqual(self.order.items_count, 0)
 
 
 class TestOrderItem(TestCase):

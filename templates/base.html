@@ -114,7 +114,7 @@
 
   <script>
     const csrftoken = '{{ csrf_token }}'
-    const updateCartURL = "{% url 'cart:update_cart' %}"
+    const updateCartURL = "{% url 'cart_api:update_cart' %}"
   </script>
   <script src="{% static 'js/main.js' %}"></script>
   {% block js %}{% endblock %}

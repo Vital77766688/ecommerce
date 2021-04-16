@@ -12,5 +12,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
+urlpatterns += [
+	path('api/cart/', include('cart.api_urls')),
+	path('api/accounts/', include('users.api_urls', namespace='users_api')),
+]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

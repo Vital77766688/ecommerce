@@ -51,6 +51,10 @@ class Order(models.Model):
 		db_table = 'orders'
 		ordering = ('-create_date',)
 
+	@property
+	def items_count(self):
+		return sum([item.qty for item in self.items.all()])
+
 
 class OrderItem(models.Model):
 	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')

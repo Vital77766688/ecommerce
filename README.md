@@ -20,7 +20,7 @@ Website is session based.
 Override save methods in models with images (Done)
 
 ### Historical tables (orders for starters)
-### DRF for API
+### DRF for API (Done)
 ### Subcategories
 ### Product specifications
 ### Pagination

@@ -174,7 +174,7 @@ class TestGetAddress(TestCase):
 
 	def test_get_address_api_success(self):
 		response = self.client.get(
-			f"{reverse('users:address')}?id={self.address1.id}",
+			f"{reverse('users_api:address')}?id={self.address1.id}",
 		)
 
 		self.assertEqual(response.status_code, 200)
@@ -183,7 +183,7 @@ class TestGetAddress(TestCase):
 
 	def test_get_address_api_fail(self):
 		response = self.client.post(
-			reverse('users:address'),
+			reverse('users_api:address'),
 			{
 				'id': self.address1.id
 			}
@@ -192,7 +192,7 @@ class TestGetAddress(TestCase):
 		self.assertEqual(response.status_code, 405)
 
 		response = self.client.get(
-			reverse('users:address'),
+			reverse('users_api:address'),
 		)
 
-		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.status_code, 404)

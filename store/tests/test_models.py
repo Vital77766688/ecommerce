@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from store.models import Category, Product
+from store.models import Category, Product, image_path
 
 
 class TestCategories(TestCase):

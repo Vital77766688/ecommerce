@@ -80,25 +80,25 @@ def profile(request):
 
 
 
-@login_required
-def get_address(request):
-	if request.method == 'GET':
-		id = request.GET.get('id')
-		if not id:
-			return JsonResponse({'success': False, 'message': 'Bad request'}, status=400)
-		address = get_object_or_404(UserAddress, id=id, user=request.user.profile)
-		response = {
-			'id': id,
-			'country': {'code': address.country.code, 'name': address.country.name},
-			'region': address.region,
-			'city': address.city,
-			'street': address.street,
-			'building_number': address.building_number,
-			'block': address.block,
-			'entrance': address.entrance,
-			'appartment': address.appartment,
-			'is_private_house': address.is_private_house,
-			'zip_code': address.zip_code
-		}
-		return JsonResponse(response, status=200)
-	return JsonResponse({'success': False, 'message': 'Method not allowed'}, status=405)
+# @login_required
+# def get_address(request):
+# 	if request.method == 'GET':
+# 		id = request.GET.get('id')
+# 		if not id:
+# 			return JsonResponse({'success': False, 'message': 'Bad request'}, status=400)
+# 		address = get_object_or_404(UserAddress, id=id, user=request.user.profile)
+# 		response = {
+# 			'id': id,
+# 			'country': {'code': address.country.code, 'name': address.country.name},
+# 			'region': address.region,
+# 			'city': address.city,
+# 			'street': address.street,
+# 			'building_number': address.building_number,
+# 			'block': address.block,
+# 			'entrance': address.entrance,
+# 			'appartment': address.appartment,
+# 			'is_private_house': address.is_private_house,
+# 			'zip_code': address.zip_code
+# 		}
+# 		return JsonResponse(response, status=200)
+# 	return JsonResponse({'success': False, 'message': 'Method not allowed'}, status=405)

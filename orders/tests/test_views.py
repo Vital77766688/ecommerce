@@ -53,7 +53,7 @@ class TestCheckout(TestCase):
 		category = Category.objects.create(category_name='aaa', category_slug='aaa')
 		product = Product.objects.create(category=category, product_name='qqq', product_slug='qqq', price=10.00)
 		self.client.post(
-					reverse('cart:update_cart'),
+					reverse('cart_api:update_cart'),
 					{
 						'id': 1,
 						'qty': 3
