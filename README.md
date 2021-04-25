@@ -23,7 +23,8 @@ Override save methods in models with images (Done)
 ### DRF for API (Done)
 ### Subcategories
 ### Product specifications
-### Pagination
+### Pagination (Done)
+### Convert functional views to CBV
 ### Payment API
 ### Refactor UI
 

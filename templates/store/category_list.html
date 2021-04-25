@@ -12,7 +12,9 @@
 	<div class="container">
 		<h1 class="page-title">{{ category.category_name }}</h1>
 
+		{% include '../snippets/pagination.html' %}
 		{% include './snippets/products.html' %}
+		{% include '../snippets/pagination.html' %}
 	</div>
 
 {% endblock %}
