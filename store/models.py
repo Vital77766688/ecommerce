@@ -3,6 +3,8 @@ from datetime import datetime
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 
+from mptt.models import MPTTModel, TreeForeignKey
+
 from PIL import Image
 
 
@@ -11,12 +13,16 @@ def image_path(instance, filename):
 	return f"images/products/{instance.id}_{datetime.now().strftime('%Y%m%s%H%M%S')}.{ext}"
 
 
-class Category(models.Model):
+class Category(MPTTModel):
 	category_name = models.CharField(max_length=50, db_index=True, verbose_name=_('Name'))
 	category_slug = models.SlugField(max_length=50, unique=True)
+	parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
 	def __str__(self):
 		return self.category_name
+
+	class MPTTMeta:
+		order_insertion_by = ['category_slug']
 
 	class Meta:
 		verbose_name = _('Category')

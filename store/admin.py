@@ -1,10 +1,16 @@
 from django.contrib import admin
 
+from mptt.admin import MPTTModelAdmin
+
 from .models import Category, Product
 
 
+class CustomMPTTModelAdmin(MPTTModelAdmin):
+	mptt_level_indent = 50
+
+
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(CustomMPTTModelAdmin):
 	prepopulated_fields = {'category_slug': ('category_name',)}
 
 

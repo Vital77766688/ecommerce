@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'phonenumber_field',
     'django_countries',
+    'mptt',
     
     'tags_and_filters',
 

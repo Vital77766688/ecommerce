@@ -38,7 +38,7 @@ def category_list(request, slug):
 		products = Product.objects.all()
 	else:
 		category = get_object_or_404(Category, category_slug=slug)
-		products = Product.objects.filter(category=category)
+		products = Product.objects.filter(category__in=category.get_descendants(include_self=True))
 
 	try:
 		page_number = request.GET.get('page') or 1

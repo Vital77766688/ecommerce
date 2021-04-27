@@ -29,3 +29,10 @@ Override save methods in models with images (Done)
 ### Refactor UI
 
 Mobile Friendly
+
+# Utilities
+
+## Run test commands
+
+### coverage run --omit '*env*' manage.py test
+### coverage html
